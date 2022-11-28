@@ -1,16 +1,64 @@
 import { SecurePassword } from "@blitzjs/auth"
 import { resolver } from "@blitzjs/rpc"
+import { AuthenticationError } from "blitz"
 import db from "db"
-import { Role } from "types"
 import { Signup } from "../validations"
 
 export default resolver.pipe(resolver.zod(Signup), async ({ email, password }, ctx) => {
   const hashedPassword = await SecurePassword.hash(password.trim())
+
+  /**
+   * By default, user's membership is your marketplace name.
+   * After the user finished their signup process, they can
+   * add a membership as an OWNER of their own store.
+   */
+
+  const storeName = process.env.STORE_NAME || "mmco-commerce"
+
+  let organization = await db.organization.findFirst({
+    where: {
+      name: storeName,
+    },
+    select: { id: true },
+  })
+  if (organization == null) {
+    organization = await db.organization.create({
+      data: {
+        name: storeName,
+        permalink: storeName.toLowerCase().split(" ").join("_"),
+      },
+    })
+  }
   const user = await db.user.create({
-    data: { email: email.toLowerCase().trim(), hashedPassword, role: "USER" },
-    select: { id: true, name: true, email: true, role: true },
+    data: {
+      email: email.toLowerCase().trim(),
+      hashedPassword,
+      memberships: {
+        create: {
+          role: "USER",
+          organization: {
+            connect: {
+              id: organization.id,
+            },
+          },
+        },
+      },
+    },
+    select: { id: true, name: true, email: true, memberships: true },
   })
 
-  await ctx.session.$create({ userId: user.id, role: user.role as Role })
+  if (!user.memberships[0]) {
+    throw new AuthenticationError(
+      "Application error: There's some mistakes on user creation process"
+    )
+  }
+  const roles = user.memberships.map((membership) => membership.role)
+  const orgIds = user.memberships.map((membership) => membership.organizationId)
+
+  await ctx.session.$create({
+    userId: user.id,
+    roles,
+    orgIds,
+  })
   return user
 })

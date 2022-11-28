@@ -16,7 +16,7 @@ const ResetPasswordPage: BlitzPage = () => {
 
   useEffect(() => {
     setToken(router.query.token as string)
-  }, [router.isReady])
+  }, [router.isReady, router.query.token])
 
   return (
     <div>

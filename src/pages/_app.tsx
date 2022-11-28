@@ -1,17 +1,28 @@
-import {ErrorFallbackProps, ErrorComponent, ErrorBoundary, AppProps} from "@blitzjs/next"
-import {AuthenticationError, AuthorizationError} from "blitz"
 import React from "react"
-import {withBlitz} from "src/blitz-client"
+import "src/core/layouts/index.css"
+import "@react-pdf-viewer/core/lib/styles/index.css"
+import "@react-pdf-viewer/default-layout/lib/styles/index.css"
 
-function RootErrorFallback({error}: ErrorFallbackProps) {
+import { ErrorFallbackProps, ErrorComponent, ErrorBoundary, AppProps, Routes } from "@blitzjs/next"
+import { AuthenticationError, AuthorizationError } from "blitz"
+import { withBlitz } from "src/blitz-client"
+import { NextUIProvider } from "@nextui-org/react"
+import router from "next/router"
+import Link from "next/link"
+
+function RootErrorFallback({ error }: ErrorFallbackProps) {
   if (error instanceof AuthenticationError) {
-    return <div>Error: You are not authenticated</div>
+    return (
+      <div>
+        هشدار: لطفا ابتدا جهت ورود ثبت نام نمایید .{" "}
+        <Link href={`${router.push(Routes.LoginPage().pathname.toLowerCase())}`}>
+          ورود به سیستم
+        </Link>
+      </div>
+    )
   } else if (error instanceof AuthorizationError) {
     return (
-      <ErrorComponent
-        statusCode={error.statusCode}
-        title="Sorry, you are not authorized to access this"
-      />
+      <ErrorComponent statusCode={error.statusCode} title="شما مجوز دسترسی به این بخش را ندارید." />
     )
   } else {
     return (
@@ -23,12 +34,15 @@ function RootErrorFallback({error}: ErrorFallbackProps) {
   }
 }
 
-function MyApp({Component, pageProps}: AppProps) {
+function MyApp({ Component, pageProps }: AppProps) {
   const getLayout = Component.getLayout || ((page) => page)
+
   return (
-    <ErrorBoundary FallbackComponent={RootErrorFallback}>
-      {getLayout(<Component {...pageProps} />)}
-    </ErrorBoundary>
+    <NextUIProvider>
+      <ErrorBoundary FallbackComponent={RootErrorFallback}>
+        {getLayout(<Component {...pageProps} />)}
+      </ErrorBoundary>
+    </NextUIProvider>
   )
 }
 

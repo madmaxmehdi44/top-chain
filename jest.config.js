@@ -1,4 +1,5 @@
-const nextJest = require("@blitzjs/next/jest")
+// import nextJest from "@blitzjs/next/jest"
+nextJest = require("@blitzjs/next/jes")
 
 const createJestConfig = nextJest({
   dir: "./",
@@ -7,5 +8,4 @@ const createJestConfig = nextJest({
 const customJestConfig = {
   testEnvironment: "jest-environment-jsdom",
 }
-
-module.exports = createJestConfig(customJestConfig)
+export default createJestConfig(customJestConfig)

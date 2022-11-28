@@ -6,6 +6,9 @@ import login from "src/auth/mutations/login"
 import { Login } from "src/auth/validations"
 import { useMutation } from "@blitzjs/rpc"
 import { Routes } from "@blitzjs/next"
+import { Password } from "src/core/components/Password"
+import { Mail } from "src/core/components/Mail"
+import { Button, Card, Container, Grid, Row } from "@nextui-org/react"
 
 type LoginFormProps = {
   onSuccess?: (user: PromiseReturnType<typeof login>) => void
@@ -14,11 +17,10 @@ type LoginFormProps = {
 export const LoginForm = (props: LoginFormProps) => {
   const [loginMutation] = useMutation(login)
   return (
-    <div>
-      <h1>Login</h1>
-
+    <>
+      {/* <Row justify="center" align="center"> */}
       <Form
-        submitText="Login"
+        submitText="login"
         schema={Login}
         initialValues={{ email: "", password: "" }}
         onSubmit={async (values) => {
@@ -37,22 +39,21 @@ export const LoginForm = (props: LoginFormProps) => {
           }
         }}
       >
-        <LabeledTextField name="email" label="Email" placeholder="Email" />
-        <LabeledTextField name="password" label="Password" placeholder="Password" type="password" />
-        <div>
-          <Link href={Routes.ForgotPasswordPage()}>
-            <a>Forgot your password?</a>
-          </Link>
-        </div>
+        <Grid.Container gap={1} justify="center" css={{ mx: "$1", px: "$1" }}>
+          <Grid>
+            <LabeledTextField type="email" name="email" label="ایمیل" placeholder="ایمیل" />
+          </Grid>
+          <Grid>
+            <LabeledTextField name="password" label="رمز" placeholder="رمز" type="password" />
+          </Grid>
+          <Grid css={{ my: "$4" }}>
+            <Link href={Routes.ForgotPasswordPage()}>فراموشی رمز</Link>
+          </Grid>
+        </Grid.Container>
       </Form>
-
-      <div style={{ marginTop: "1rem" }}>
-        Or{" "}
-        <Link href={Routes.SignupPage()}>
-          <a>Sign Up</a>
-        </Link>
-      </div>
-    </div>
+     
+      {/* </Row> */}
+    </>
   )
 }
 

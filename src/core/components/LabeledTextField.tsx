@@ -1,5 +1,8 @@
+import { Container, Grid, Input, Text } from "@nextui-org/react"
 import { forwardRef, ComponentPropsWithoutRef, PropsWithoutRef } from "react"
 import { useField, UseFieldConfig } from "react-final-form"
+import { Mail } from "./Mail"
+import { Password } from "./Password"
 
 export interface LabeledTextFieldProps extends PropsWithoutRef<JSX.IntrinsicElements["input"]> {
   /** Field name. */
@@ -30,35 +33,40 @@ export const LabeledTextField = forwardRef<HTMLInputElement, LabeledTextFieldPro
     const normalizedError = Array.isArray(error) ? error.join(", ") : error || submitError
 
     return (
-      <div {...outerProps}>
-        <label {...labelProps}>
-          {label}
-          <input {...input} disabled={submitting} {...props} ref={ref} />
-        </label>
-
-        {touched && normalizedError && (
-          <div role="alert" style={{ color: "red" }}>
-            {normalizedError}
-          </div>
-        )}
-
-        <style jsx>{`
-          label {
-            display: flex;
-            flex-direction: column;
-            align-items: start;
-            font-size: 1rem;
-          }
-          input {
-            font-size: 1rem;
-            padding: 0.25rem 0.5rem;
-            border-radius: 3px;
-            border: 1px solid purple;
-            appearance: none;
-            margin-top: 0.5rem;
-          }
-        `}</style>
-      </div>
+      <>
+        <Grid.Container gap={2}>
+          <Grid>
+            <Input
+              {...input}
+              //{...props}
+              type={props.type}
+              fullWidth={true}
+              clearable
+              disabled={submitting}
+              color="secondary"
+              size="lg"
+              labelPlaceholder={props.placeholder}
+              // label={label}
+              // contentLeftStyling={true}
+              contentLeft={
+                props.type === "password" ? (
+                  <Password fill="currentColor" size={24} height={12} width={12} />
+                ) : (
+                  <Mail fill="currentColor" size={24} height={12} width={12} />
+                )
+              }
+              // contentRight={<Mail fill="currentColor" size={24} height={12} width={12} />}
+              ref={ref}
+            />
+            {touched && normalizedError && (
+              <div role="alert" style={{ color: "orchid" }}>
+                <Text>اطلاعات صحیح نیست</Text>
+                {normalizedError}
+              </div>
+            )}
+          </Grid>
+        </Grid.Container>
+      </>
     )
   }
 )

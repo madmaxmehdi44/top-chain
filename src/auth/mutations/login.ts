@@ -2,12 +2,17 @@ import { SecurePassword } from "@blitzjs/auth"
 import { resolver } from "@blitzjs/rpc"
 import { AuthenticationError } from "blitz"
 import db from "db"
-import { Role } from "types"
 import { Login } from "../validations"
 
 export const authenticateUser = async (rawEmail: string, rawPassword: string) => {
-  const { email, password } = Login.parse({ email: rawEmail, password: rawPassword })
-  const user = await db.user.findFirst({ where: { email } })
+  const email = rawEmail.toLowerCase().trim()
+  const password = rawPassword.trim()
+  // const { email, password } = Login.parse({ email: rawEmail, password: rawPassword })
+
+  const user = await db.user.findFirst({
+    where: { email },
+    select: { id: true, hashedPassword: true, name: true, email: true, memberships: true },
+  })
   if (!user) throw new AuthenticationError()
 
   const result = await SecurePassword.verify(user.hashedPassword, password)
@@ -25,8 +30,11 @@ export const authenticateUser = async (rawEmail: string, rawPassword: string) =>
 export default resolver.pipe(resolver.zod(Login), async ({ email, password }, ctx) => {
   // This throws an error if credentials are invalid
   const user = await authenticateUser(email, password)
+  const roles = user.memberships.map((membership) => membership.role)
+  const orgIds = user.memberships.map((membership) => membership.organizationId)
+  if (!user.memberships[0]) throw new AuthenticationError()
 
-  await ctx.session.$create({ userId: user.id, role: user.role as Role})
+  await ctx.session.$create({ userId: user.id, roles, orgIds })
 
   return user
 })
