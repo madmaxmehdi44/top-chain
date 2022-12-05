@@ -51,7 +51,7 @@ export const LoginForm = (props: LoginFormProps) => {
           </Grid>
         </Grid.Container>
       </Form>
-     
+
       {/* </Row> */}
     </>
   )

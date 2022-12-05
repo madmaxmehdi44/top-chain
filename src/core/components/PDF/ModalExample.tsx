@@ -82,7 +82,10 @@ export default function ModalExample({ fileUrl }): JSX.Element {
 
   return (
     <>
-      <Button
+      <button onClick={() => setShown(true)} className="btn btn-warning ">
+        مشاهده سریع لوحه
+      </button>
+      {/* <Button
         iconRight={<MdPreview className=" text-xl " />}
         onClick={() => setShown(true)}
         shadow
@@ -91,7 +94,7 @@ export default function ModalExample({ fileUrl }): JSX.Element {
         className="animate-pulse "
       >
         <Text className="animate-pulse text-md font-bold ">مشاهده لوحه</Text>
-      </Button>
+      </Button> */}
       {shown && ReactDOM.createPortal(modalBody(), document.body)}
     </>
   )

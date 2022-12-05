@@ -1,12 +1,12 @@
 import React from "react"
 import "src/core/layouts/index.css"
-import "@react-pdf-viewer/core/lib/styles/index.css"
-import "@react-pdf-viewer/default-layout/lib/styles/index.css"
+// import "@react-pdf-viewer/core/lib/styles/index.css"
+// import "@react-pdf-viewer/default-layout/lib/styles/index.css"
 
 import { ErrorFallbackProps, ErrorComponent, ErrorBoundary, AppProps, Routes } from "@blitzjs/next"
 import { AuthenticationError, AuthorizationError } from "blitz"
 import { withBlitz } from "src/blitz-client"
-import { NextUIProvider } from "@nextui-org/react"
+// import { NextUIProvider } from "@nextui-org/react"
 import router from "next/router"
 import Link from "next/link"
 
@@ -38,11 +38,11 @@ function MyApp({ Component, pageProps }: AppProps) {
   const getLayout = Component.getLayout || ((page) => page)
 
   return (
-    <NextUIProvider>
-      <ErrorBoundary FallbackComponent={RootErrorFallback}>
-        {getLayout(<Component {...pageProps} />)}
-      </ErrorBoundary>
-    </NextUIProvider>
+    // <NextUIProvider>
+    <ErrorBoundary FallbackComponent={RootErrorFallback}>
+      {getLayout(<Component {...pageProps} />)}
+    </ErrorBoundary>
+    // </NextUIProvider>
   )
 }
 

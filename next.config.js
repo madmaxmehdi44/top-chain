@@ -44,6 +44,7 @@ const config = {
   //   //   },
   //   // ],
   // },
+  // images: { domains: ["placeimg.com"], formats: ["image/avif", "image/webp"] },
 }
 
 module.exports = withBlitz(config)
