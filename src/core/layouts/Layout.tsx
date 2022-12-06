@@ -131,7 +131,7 @@ const UserInfo = () => {
               textValue="ورود به حساب"
               title="ورود به حساب"
               command="⌘M"
-              description="Create a new file"
+              // description="ساخت کاربری"
             >
               {/* <Button   onClick={handler}>
               ورود به حساب
@@ -145,7 +145,7 @@ const UserInfo = () => {
             <Dropdown.Item
               key="login"
               command="⌘⇧F"
-              description="Allows you to edit the file"
+              // description="Allows you to edit the file"
               withDivider
             >
               <Link href={Routes.SignupPage()}>
@@ -156,7 +156,7 @@ const UserInfo = () => {
             </Dropdown.Item>
 
             <Dropdown.Item key="help_and_feedback" withDivider>
-              Help & Feedback
+              راهنما و بازخورد
             </Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown>
@@ -218,12 +218,12 @@ const UserInfo = () => {
 
 const collapseItems = [
   ["لوحه اعزام و پذیرش", ""],
-  ["فروشگاه ها", "stores"],
-  ["پروژه ها", "projects"],
+  // ["فروشگاه ها", "stores"],
+  // ["پروژه ها", "projects"],
   ["راهنما", "help"],
   ["اخبار", "team"],
   ["قوانین", "legal"],
-  ["سازمان", "company"],
+  // ["سازمان", "company"],
 ]
 
 const Layout: BlitzLayout<{ title?: string; children?: React.ReactNode }> = ({
@@ -274,7 +274,7 @@ const Layout: BlitzLayout<{ title?: string; children?: React.ReactNode }> = ({
             },
           }}
         >
-          <Suspense fallback={<div>Loading...</div>}>
+          <Suspense fallback={<div>درحال بارگزاری...</div>}>
             <UserInfo />
           </Suspense>
         </Navbar.Content>
