@@ -6,5 +6,6 @@
   },
   "jest.autoRun": "off",
   "terminal.explorerKind": "external",
-  "search.useGlobalIgnoreFiles": false
+  "search.useGlobalIgnoreFiles": false,
+  "cSpell.words": ["Vazirmatn"]
 }
