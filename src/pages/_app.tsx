@@ -1,4 +1,4 @@
-import React from "react"
+import React, { Suspense } from "react"
 import "src/core/layouts/index.css"
 // import "@react-pdf-viewer/core/lib/styles/index.css"
 // import "@react-pdf-viewer/default-layout/lib/styles/index.css"
@@ -43,7 +43,13 @@ function MyApp({ Component, pageProps }: AppProps) {
     // <NextUIProvider>
     <SSRProvider>
       <ErrorBoundary FallbackComponent={RootErrorFallback}>
-        {getLayout(<Component {...pageProps} />)}
+        <Suspense
+          fallback={
+            <h1 className="bg-rose-500 w-full h-full font-extrabold ">درحال لوحه ساختن... </h1>
+          }
+        >
+          {getLayout(<Component {...pageProps} />)}
+        </Suspense>
       </ErrorBoundary>
     </SSRProvider>
     // </NextUIProvider>

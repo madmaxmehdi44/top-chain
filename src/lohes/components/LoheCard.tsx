@@ -40,7 +40,7 @@ export function LoheCard(): JSX.Element {
   return (
     <>
       <div className="card  glass w-screen min-h-screen">
-        <Image src="/wallpaper.jpg" layout="fill" alt="Lohe" />
+        <Image src="/wallpaper.png" fill alt="Lohe" />
         <div className="card-body absolute z-10 top-1">
           <h2 className="card-title">لوحه اعزام و پذیرش امروز مورخ: {curdate}</h2>
           <p>سازمان حمل و نقل ریلی شیراز</p>
@@ -52,7 +52,6 @@ export function LoheCard(): JSX.Element {
           </div>
         </div>
       </div>
-
     </>
   )
 }
