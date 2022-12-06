@@ -13,7 +13,8 @@ class MyDocument extends Document {
   }
   render() {
     return (
-      <Html lang="fa" dir="rtl" data-theme="fantacy">
+      // <Html lang="fa" dir="rtl" data-theme="fantacy">
+      <Html data-theme="fantacy">
         {/* <Head>{CssBaseline.flush()}</Head> */}
         <Head></Head>
         <body>

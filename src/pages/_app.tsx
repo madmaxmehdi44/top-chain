@@ -3,6 +3,8 @@ import "src/core/layouts/index.css"
 // import "@react-pdf-viewer/core/lib/styles/index.css"
 // import "@react-pdf-viewer/default-layout/lib/styles/index.css"
 
+import { SSRProvider } from "@react-aria/ssr"
+
 import { ErrorFallbackProps, ErrorComponent, ErrorBoundary, AppProps, Routes } from "@blitzjs/next"
 import { AuthenticationError, AuthorizationError } from "blitz"
 import { withBlitz } from "src/blitz-client"
@@ -39,9 +41,11 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   return (
     // <NextUIProvider>
-    <ErrorBoundary FallbackComponent={RootErrorFallback}>
-      {getLayout(<Component {...pageProps} />)}
-    </ErrorBoundary>
+    <SSRProvider>
+      <ErrorBoundary FallbackComponent={RootErrorFallback}>
+        {getLayout(<Component {...pageProps} />)}
+      </ErrorBoundary>
+    </SSRProvider>
     // </NextUIProvider>
   )
 }
